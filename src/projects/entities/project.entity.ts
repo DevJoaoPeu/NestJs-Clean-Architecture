@@ -16,6 +16,9 @@ export class Project {
   @Column()
   name: string;
 
+  @Column()
+  description: string;
+
   @Column({ nullable: true, type: 'datetime' })
   started_at: Date | null;
 
@@ -24,6 +27,9 @@ export class Project {
 
   @Column({ nullable: true, type: 'datetime' })
   forecasted_at: Date | null;
+
+  @Column({ nullable: true, type: 'datetime' })
+  finished_at: Date | null;
 
   @Column({ type: 'simple-enum' })
   status: ProjectStatus = ProjectStatus.Pending;
