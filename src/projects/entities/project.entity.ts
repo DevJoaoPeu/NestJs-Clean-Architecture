@@ -38,7 +38,7 @@ export class Project {
     props: {
       name: string;
       description: string;
-      start_at?: Date | null;
+      started_at?: Date | null;
       cancelled?: Date | null;
       forcasted_at?: Date | null;
     },
@@ -46,6 +46,10 @@ export class Project {
   ) {
     Object.assign(this, props);
     this.id = id ?? crypto.randomUUID();
+
+    if (props?.started_at) {
+      this.start(props.started_at);
+    }
   }
 
   start(started_at: Date) {
