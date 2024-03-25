@@ -7,36 +7,47 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
-import { UpdateProjectDto } from './dto/update-project.dto';
+import { CreateProjectUseCase } from './use-case/create-project.use-case';
+import { FindALlProjectsUseCase } from './use-case/find-all-projects-use-case';
+import { StartProjectUseCase } from './use-case/start-project-use-case';
+import { StartProjectDto } from './dto/start-project.dto';
 
 @Controller('projects')
-export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
+export class ProjectsControllerWithUseCase {
+  constructor(
+    private readonly createProjectUseCase: CreateProjectUseCase,
+    private readonly findAllProjectsUseCase: FindALlProjectsUseCase,
+    private readonly startProjectUseCase: StartProjectUseCase,
+  ) {}
 
   @Post()
   create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectsService.create(createProjectDto);
+    return this.createProjectUseCase.execute(createProjectDto);
   }
 
   @Get()
   findAll() {
-    return this.projectsService.findAll();
+    return this.findAllProjectsUseCase.execute();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.projectsService.findOne(id);
+  @Post(':id/start')
+  start(@Param('id') id: string, @Body() startProjectDto: StartProjectDto) {
+    return this.startProjectUseCase.execute(id, startProjectDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectsService.update(id, updateProjectDto);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.projectsService.findOne(id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectsService.remove(id);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
+  //   return this.projectsService.update(id, updateProjectDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.projectsService.remove(id);
+  // }
 }
