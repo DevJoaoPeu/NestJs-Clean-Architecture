@@ -24,5 +24,7 @@ export class StartProjectUseCase {
 
     project.started_at = input.started_at;
     project.status = ProjectStatus.Active;
+
+    return this.projectRepo.save(project);
   }
 }
